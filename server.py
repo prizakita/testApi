@@ -12,6 +12,12 @@ def roblox_event():
     data = request.get_json(silent=True) or {}
 
     # sicurezza: controlla se il webhook esiste
+
+    requests.post(WEBHOOK_URL, json={
+        "content": f"Nuovo evento"
+    })
+
+    
     if WEBHOOK_URL:
         requests.post(WEBHOOK_URL, json={
             "content": f"Nuovo evento: {data}"
