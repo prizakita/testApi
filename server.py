@@ -9,11 +9,9 @@ DISCORD_WEBHOOK = os.environ.get("https://discord.com/api/webhooks/1448663497096
 @app.route("/testrankup", methods=["GET","POST"])
 def roblox_event():
     try:
-        data = request.json
-
         # Messaggio base
         message = {
-            "content": f"Evento da Roblox:\n```json\n{data}\n```"
+            "content": f"Evento!"
         }
 
         # Invia il messaggio a Discord
