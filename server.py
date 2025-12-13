@@ -4,26 +4,31 @@ import os
 
 app = Flask(__name__)
 
-WEBHOOK_URL = os.getenv("https://discord.com/api/webhooks/1448663497096298638/13DH2mZ_G9Hfq37qh3eBLaTA6mpZEX3KXa_9WTkujUkq6F77Tc0_c4PA_q3ouIPZt8M1")
+def InvioWebHook(WebHook):
+    url = WebHook
 
-@app.route("/testbello", methods=["POST", "GET"])
-def roblox_event():
-    # evitare errore 415
-    data = request.get_json(silent=True) or {}
+    data = {}
 
-    # sicurezza: controlla se il webhook esiste
+    data["embeds"] = [
+        {
+            "title": "PROMOZIONE",
+            "description": "Aggiornamento rank effettuato con successo!",
+            "color": 3066993,
+            "fields": [
+            ],
+            "footer": {
+                "text": "Lordine's Projects, Ranker 1"
+            },
+        }
+    ]
 
-    requests.post(WEBHOOK_URL, json={
-        "content": f"Nuovo evento"
-    })
+    result = requests.post(url, json = data)
 
-    
-    if WEBHOOK_URL:
-        requests.post(WEBHOOK_URL, json={
-            "content": f"Nuovo evento: {data}"
-        })
+    try:
+        result.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)
     else:
-        print("NESSUN WEBHOOK SETTATO")
+        print(f"Payload delivered successfully, code {result.status_code}.")
 
-    return {"ok": True, "data": data}
-
+InvioWebHook("https://discord.com/api/webhooks/1448663497096298638/13DH2mZ_G9Hfq37qh3eBLaTA6mpZEX3KXa_9WTkujUkq6F77Tc0_c4PA_q3ouIPZt8M1")
